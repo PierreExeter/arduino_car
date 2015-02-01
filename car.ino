@@ -19,6 +19,15 @@ void go(int s1R,int s2R,int s3L,int s4L) {
   // sR1 controls first input from the right motor
   // sR2 controls second input from the right motor
   // and analogicaly for the left motor.
+  
+  // so (sR1, sR2) = (0,1) moves right wheels forward
+  // so (sR1, sR2) = (1,0) moves right wheels backward
+  // so (sL1, sL2) = (0,1) moves left wheels forward
+  // so (sL1, sL2) = (1,0) moves left wheels backward
+
+  // right forward and left backward makes the car turn left
+  // right backward and left forward makes the car turn right
+
   digitalWrite(R1,s1R);
   digitalWrite(R2,s2R);
   digitalWrite(L1,s3L);
@@ -26,26 +35,40 @@ void go(int s1R,int s2R,int s3L,int s4L) {
 }
 
 void left(){
- go(1,0,0,1); 
+  go(0,1,1,0); 
 }
 
 void right(){
- go(0,1,1,0); 
+ go(1,0,0,1);
 }
 
 void fd(){
- go(1,0,1,0); 
+ go(0,1,0,1);
 }
 
 void bk(){
- go(0,1,0,1); 
+  go(1,0,1,0); 
 }
 
 void arret(){
  go(0,0,0,0); 
 }
 
+void fd_left(){
+  go(0,1,0,0); 
+}
 
+void fd_right(){
+ go(0,0,0,1);
+}
+
+void bk_left(){
+  go(0,0,1,0); 
+}
+
+void bk_right(){
+ go(1,0,0,0);
+}
 
 void setup() {
   // put your setup code here, to run once:
@@ -58,36 +81,53 @@ void setup() {
     
     // setup the bluetooth
   Genotronex.begin(9600);
-  Genotronex.println("0 to stop; 1 to go back; 2 to go forward; 3 to go left; 4 to go right");
+  Genotronex.println("S to stop; B to go back; F to go forward; L to go left; R to go right");
 
 }
 
 void loop() {
   
-   if (Genotronex.available()){
-BluetoothData=Genotronex.read();
+  if (Genotronex.available())	
+  {
+  BluetoothData=Genotronex.read();
   // stop the car
-  if (BluetoothData=='0'){
-    arret();
+  if (BluetoothData=='S'){
+    arret(); // stop
   }
   // go back
-  if (BluetoothData=='1'){
-   bk();
+  if (BluetoothData=='B'){
+   bk(); // back
   }
   // go forward
-  if (BluetoothData=='2'){
-    fd();
+  if (BluetoothData=='F'){
+    fd(); // forward
   }
   // go left
-  if (BluetoothData=='3'){
+  if (BluetoothData=='L'){
     left();
   }
   // go right
-  if (BluetoothData=='4'){
+  if (BluetoothData=='R'){
     right();
   }
-   }  
-   delay(100);
+  // go forward left
+  if (BluetoothData == 'G'){
+     fd_left();
+  }
+  // go forward right
+  if (BluetoothData == 'I'){
+    fd_right();
+  }
+  // go backward left
+  if (BluetoothData == 'H'){
+     bk_left();
+  }
+  // go backward right
+  if (BluetoothData == 'j'){
+    bk_right();
+  }
+ }  
+   //delay(100);
 }
  
 //  // go backward
