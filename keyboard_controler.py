@@ -9,8 +9,14 @@ port=1
 # open RFCOMM socket
 sock=BluetoothSocket( RFCOMM )
 # connect to the car bluetooth device
-sock.connect ( (device, port) )
-print("Connected to the car.")
+try:
+    sock.connect ( (device, port) )
+    print("Connected to the car.")
+except:
+    print("The bluetooth device %s not found." % device)
+    print("Check the connection of the device and try again.")
+    exit(1)
+
 print("""----------------------------------------
 \tPlease send your instruction:
 \t7 (FL)\t8 (F)\t9 (FR)
