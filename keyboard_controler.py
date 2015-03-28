@@ -1,5 +1,4 @@
 from bluetooth import *
-from time import sleep
 from getch import getch
 
 # the car controler MAC address
@@ -11,6 +10,21 @@ port=1
 sock=BluetoothSocket( RFCOMM )
 # connect to the car bluetooth device
 sock.connect ( (device, port) )
+print("Connected to the car.")
+print("""----------------------------------------
+\tPlease send your instruction:
+\t7 (FL)\t8 (F)\t9 (FR)
+\t4 (L)\t5 (S)\t6 (R)
+\t1 (BL)\t2 (B)\t3 (BL)
+
+\tF -- forward
+\tB -- backward
+\tR -- right
+\tL -- left
+\tS -- stop
+----------------------------------------
+(press "q" to quit)
+""")
 
 # initial instruction
 inst="5"
