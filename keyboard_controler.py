@@ -28,6 +28,8 @@ print("""----------------------------------------
 \tR -- right
 \tL -- left
 \tS -- stop
+
+Press "V" to honk the horn.
 ----------------------------------------
 (press "q" to quit)
 """)
@@ -55,6 +57,8 @@ while not inst == "q":
         sock.send ("H") # backward left
     elif (inst == "3"):
         sock.send ("J") # backward right
+    elif (inst == "V"):
+        sock.send ("V") # horn
     
 # close the connection
 sock.close()
